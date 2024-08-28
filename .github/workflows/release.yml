@@ -80,7 +80,6 @@ jobs:
           git diff ${{ github.event.inputs.commit_id }} tags/${{ github.event.inputs.version_number }}
   create-zip:
     if: ${{ ( github.event.inputs.delete_existing_tag_release == 'true' && success() )  || ( github.event.inputs.delete_existing_tag_release == 'false' && always() ) }}
-    needs: tag-commit
     name: Create ZIP and verify package for release asset.
     runs-on: ubuntu-latest
     steps:
@@ -130,7 +129,6 @@ jobs:
           name: coreMQTT-Agent-${{ github.event.inputs.version_number }}.zip
           path: zip-check/coreMQTT-Agent-${{ github.event.inputs.version_number }}.zip
   deploy-doxygen:
-    needs: tag-commit
     if: ${{ ( github.event.inputs.delete_existing_tag_release == 'true' && success() )  || ( github.event.inputs.delete_existing_tag_release == 'false' && always() ) }}
     name: Deploy doxygen documentation
     runs-on: ubuntu-latest
