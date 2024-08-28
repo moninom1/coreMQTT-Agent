@@ -1,6 +1,7 @@
 {
   "name": "coreMQTT-Agent",
   "releases": [
+    "v1.0.3",
     "v1.0.0"
   ],
   "branches": [
