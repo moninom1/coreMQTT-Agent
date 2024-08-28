@@ -43,6 +43,16 @@
 #include "core_mqtt_agent_message_interface.h"
 
 /**
+ * @cond DOXYGEN_IGNORE
+ * The current version of this library.
+ *
+ * If MQTT_AGENT_LIBRARY_VERSION ends with + it represents the version in development
+ * after the numbered release.
+ */
+#define MQTT_AGENT_LIBRARY_VERSION    "v2.3.1+"
+/** @endcond */
+
+/**
  * @ingroup mqtt_agent_enum_types
  * @brief A type of command for interacting with the MQTT API.
  */

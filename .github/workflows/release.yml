@@ -95,12 +95,12 @@ jobs:
           git commit -m '[AUTO][RELEASE]: Update version number in doxygen'
           git push -u origin ${{ github.event.inputs.version_number }}
 
-      - name : Update MQTT version number macro
-        if: ${{ github.event.repository.name == 'coreMQTT' }}
+      - name : Update MQTT-Agent version number macro
+        if: ${{ github.event.repository.name == 'coreMQTT-Agent' }}
         run: |
-          sed -i -b 's/^\#define MQTT_LIBRARY_VERSION .*/\#define MQTT_LIBRARY_VERSION    "${{ github.event.inputs.version_number }}"/g' source/include/core_mqtt.h
+          sed -i -b 's/^\#define MQTT_AGENT_LIBRARY_VERSION .*/\#define MQTT_AGENT_LIBRARY_VERSION    "${{ github.event.inputs.version_number }}"/g' source/include/core_mqtt_agent.h
           git add .
-          git commit -m '[AUTO][RELEASE]: Update version number macro in source/include/core_mqtt.h'
+          git commit -m '[AUTO][RELEASE]: Update version number macro in source/include/core_mqtt_agent.h'
           git push -u origin ${{ github.event.inputs.version_number }}
 
       - name: Generate SBOM
@@ -204,18 +204,18 @@ jobs:
           && echo "manifest.yml : match ${{ github.event.inputs.version_number }}" \
           || { echo "manifest.yml : $MANIFEST_VESION_NUMBER doesn't match ${{ github.event.inputs.version_number }}"; exit 255; }
 
-      - name: Check MQTT version number macro in header file
-        if: ${{ github.event.repository.name == 'coreMQTT' }}
+      - name: Check MQTT Agent version number macro in header file
+        if: ${{ github.event.repository.name == 'coreMQTT-Agent' }}
         run: |
           cd zip-check/${{ env.repository_compressed_name }}/${{ github.event.repository.name }}
 
-          # find "#define MQTT_LIBRARY_VERSION <version_number>" in core_mqtt.h
-          MACRO_VERSION_NUMBER=$(grep -x "^\#define[ ]*MQTT_LIBRARY_VERSION[ ]*\".*\"[ ]*" source/include/core_mqtt.h | awk '{gsub("\"","",$3); print $3 }');
+          # find "#define MQTT_AGENT_LIBRARY_VERSION <version_number>" in core_mqtt_agent.h
+          MACRO_VERSION_NUMBER=$(grep -x "^\#define[ ]*MQTT_AGENT_LIBRARY_VERSION[ ]*\".*\"[ ]*" source/include/core_mqtt_agent.h | awk '{gsub("\"","",$3); print $3 }');
           
           # compare the <version_number> with input version number
           [[ $MACRO_VERSION_NUMBER == "${{ github.event.inputs.version_number }}" ]] \
-          && echo "core_mqtt.h : match ${{ github.event.inputs.version_number }}" \
-          || { echo "core_mqtt.h : $MACRO_VERSION_NUMBER doesn't match ${{ github.event.inputs.version_number }}"; exit 255; }
+          && echo "core_mqtt_agent.h : match ${{ github.event.inputs.version_number }}" \
+          || { echo "core_mqtt_agent.h : $MACRO_VERSION_NUMBER doesn't match ${{ github.event.inputs.version_number }}"; exit 255; }
 
       - name: Build
         run: |
